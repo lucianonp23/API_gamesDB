@@ -2,6 +2,11 @@ const express= require("express");
 const app = express();
 const bodyParser=  require("body-parser");
 const cors= require("cors");
+const jwt = require("jsonwebtoken");
+
+var jwtSecret= "huaicanclkcamslcçm";
+
+
 
 app.use(cors());
 
@@ -38,9 +43,10 @@ var DB = {
 
 }
 
-app.get("/games",(req,res)=>{
+app.get("/games",auth,(req,res)=>{
     res.statusCode= 200;
     res.json(DB.games);
+    
 });
 
 app.get("/game/:id",(req,res)=>{
@@ -136,8 +142,18 @@ app.post("/auth",(req,res)=>{
     
     if(emailCheck != undefined){
         if( password == emailCheck.password){
-            res.statusCode=200;
-            res.send("Token Falso");
+            
+            jwt.sign({id: id, name: name},jwtSecret,{expiresIn:"48h"},(error,token)=>{
+                if(error){
+                    res.statusCode= 400;
+                    res.json(error);
+                }else{
+                    res.statusCode= 200;
+                    res.json(token);
+                }
+            });
+            
+            
         }else{
             res.statusCode=400;
             res.send("Senha inválida, tente novamente");
@@ -148,7 +164,15 @@ app.post("/auth",(req,res)=>{
     }
 })
 
-
+function auth(req,res,next){
+    const headerAuth = req.headers['Authorization'];
+    
+    var bearer= headerAuth.split(' ');
+    console.log(bearer);    
+    
+    
+    next(); 
+}
 
 
 app.listen("5000", ()=>{
