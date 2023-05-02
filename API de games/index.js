@@ -6,8 +6,6 @@ const jwt = require("jsonwebtoken");
 
 var jwtSecret= "huaicanclkcamslcçm";
 
-
-
 app.use(cors());
 
 //setting bodyParser for capture forms
@@ -143,7 +141,7 @@ app.post("/auth",(req,res)=>{
     if(emailCheck != undefined){
         if( password == emailCheck.password){
             
-            jwt.sign({id: id, name: name},jwtSecret,{expiresIn:"48h"},(error,token)=>{
+            jwt.sign({id: emailCheck.id, name: emailCheck.name},jwtSecret,{expiresIn:"48h"},(error,token)=>{
                 if(error){
                     res.statusCode= 400;
                     res.json(error);
@@ -165,13 +163,23 @@ app.post("/auth",(req,res)=>{
 })
 
 function auth(req,res,next){
-    const headerAuth = req.headers['Authorization'];
+    const headerAuth = req.headers["authorization"];
     
-    var bearer= headerAuth.split(' ');
-    console.log(bearer);    
+    var bearer= headerAuth.split(" ")[1];
+    
+    jwt.verify(bearer,jwtSecret,(err,data)=>{
+        if(err){
+            res.statusCode= 400;
+            res.json({err: err})
+        }else{
+            res.statusCode= 200;
+            res.json(data);
+            next()
+        }
+    })
     
     
-    next(); 
+    ; 
 }
 
 
