@@ -47,7 +47,7 @@ app.get("/games",auth,(req,res)=>{
     
 });
 
-app.get("/game/:id",(req,res)=>{
+app.get("/game/:id",auth,(req,res)=>{
     if(isNaN(req.params.id)){
         res.statusCode=400;
         res.send("Id must be a number!")
@@ -81,7 +81,7 @@ app.post("/games",(req,res)=>{
     res.sendStatus(200);
 });
 
-app.delete("/game/:id", (req,res)=>{
+app.delete("/game/:id",auth, (req,res)=>{
 
     if(isNaN(req.params.id)){
         res.statusCode=400;
@@ -102,7 +102,7 @@ app.delete("/game/:id", (req,res)=>{
 
 });
 
-app.put("/game/:id",(req,res)=>{
+app.put("/game/:id",auth,(req,res)=>{
     if(isNaN(req.params.id)){
         res.statusCode=400;
         res.send("Id must be a number!")
@@ -162,6 +162,7 @@ app.post("/auth",(req,res)=>{
     }
 })
 
+/*TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImJydWNlIiwiaWF0IjoxNjgzMTM3MzM1LCJleHAiOjE2ODMzMTAxMzV9.KMnN5qwNYuXx0OL_2q0CCGcCNzr_E_3Q40JzFxXayCM*/
 function auth(req,res,next){
     const headerAuth = req.headers["authorization"];
     
@@ -173,7 +174,10 @@ function auth(req,res,next){
             res.json({err: err})
         }else{
             res.statusCode= 200;
-            res.json(data);
+            req.token= data.token ; 
+            req.loggedUser= {id: data.id, name: data.name}
+            console.log(req.loggedUser);
+            
             next()
         }
     })
