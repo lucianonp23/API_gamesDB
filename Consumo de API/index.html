@@ -32,7 +32,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        axios.get("http://localhost:5000/games").then(response=>{
+        
+        const token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImJydWNlIiwiaWF0IjoxNjgzNDc4NzUyLCJleHAiOjE2ODM2NTE1NTJ9.1nlfDJ2G7356Zg5DfI456F6x2RSJFI0ZFt6LVPo3Vek";
+        var axiosConfig= {
+            headers: {
+                'Authorization': `Bearer ${token}`
+  }
+        }
+        
+        
+        axios.get("http://localhost:5000/games",axiosConfig).then(response=>{
             var games = response.data; 
             var list= document.getElementById("list");
 

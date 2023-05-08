@@ -36,7 +36,7 @@ var DB = {
         {id:5 ,
         name: "bruce",
         email:"bruce@gmail.com",
-        password: "reidelas"}
+        password: "bigdog"}
     ]
 
 }
@@ -164,9 +164,10 @@ app.post("/auth",(req,res)=>{
 
 /*TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImJydWNlIiwiaWF0IjoxNjgzMTM3MzM1LCJleHAiOjE2ODMzMTAxMzV9.KMnN5qwNYuXx0OL_2q0CCGcCNzr_E_3Q40JzFxXayCM*/
 function auth(req,res,next){
-    const headerAuth = req.headers["authorization"];
     
-    var bearer= headerAuth.split(" ")[1];
+    const headerAuth = req.headers["authorization"];
+    if (headerAuth != undefined){
+      var bearer= headerAuth.split(" ")[1];
     
     jwt.verify(bearer,jwtSecret,(err,data)=>{
         if(err){
@@ -183,7 +184,12 @@ function auth(req,res,next){
     })
     
     
-    ; 
+    ;   
+    } else{
+        res.statusCode= 400;
+        res.json({err: "No token found"})
+        }
+    
 }
 
 
