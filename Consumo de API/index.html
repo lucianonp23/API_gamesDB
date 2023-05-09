@@ -8,13 +8,13 @@
 </head>
 <body>
     <h1>Login</h1>
-    <form action="">
+    
        <label for="email">Email</label>
        <input type="email" name="email" id="email" placeholder="Type your email here"> <br>
        <label for="password">Password</label> 
         <input type="password" name="password" id="password" placeholder="and password"> 
-        <button type="submit" onclick="login()"></button>
-    </form>
+        <button  onclick="login()">Login</button>
+    
     
     
     
@@ -44,7 +44,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         
-        const token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImJydWNlIiwiaWF0IjoxNjgzNDc4NzUyLCJleHAiOjE2ODM2NTE1NTJ9.1nlfDJ2G7356Zg5DfI456F6x2RSJFI0ZFt6LVPo3Vek";
+        const token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImJydWNlIiwiaWF0IjoxNjgzNjY5MTY0LCJleHAiOjE2ODM4NDE5NjR9.Df2tbHGz8mMgzoSLk-942xoGHYVdYlfmtBAevMDv1iE";
         var axiosConfig= {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -153,6 +153,22 @@
 
             axios.put("http://localhost:5000/game/"+id,game);
             
+        };
+
+        function login(){
+
+            var emailField = document.getElementById(email);
+            var passwordField = document.getElementById(password);
+            var email = emailField.value;
+            var password = passwordField.value;
+            console.log(email)
+
+            axios.post("http://localhost:5000/auth",{email: email, password:password}).then(res=>{
+                alert("User logged!! Token: "+ res.data.token);
+                console.log("User logged!! Token: "+ res.data.token);
+            }).catch(err=>{
+                alert(err);
+            })
         }
         
         
