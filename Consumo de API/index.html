@@ -10,7 +10,7 @@
     <h1>Login</h1>
     
        <label for="email">Email</label>
-       <input type="email" name="email" id="email" placeholder="Type your email here"> <br>
+       <input type="text" name="email" id="email" placeholder="Type your email here"> <br>
        <label for="password">Password</label> 
         <input type="password" name="password" id="password" placeholder="and password"> 
         <button  onclick="login()">Login</button>
@@ -157,14 +157,14 @@
 
         function login(){
 
-            var emailField = document.getElementById(email);
-            var passwordField = document.getElementById(password);
+            var emailField = document.getElementById("email")
+            var passwordField = document.getElementById("password");
             var email = emailField.value;
             var password = passwordField.value;
             console.log(email)
 
             axios.post("http://localhost:5000/auth",{email: email, password:password}).then(res=>{
-                alert("User logged!! Token: "+ res.data.token);
+                alert("User logged!! Token: "+ res.json);
                 console.log("User logged!! Token: "+ res.data.token);
             }).catch(err=>{
                 alert(err);
