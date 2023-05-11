@@ -133,7 +133,7 @@ app.put("/game/:id",auth,(req,res)=>{
 }); 
 
 app.post("/auth",(req,res)=>{
-    var {id,name,email,password} = req.body;
+    var {email,password} = req.body;
 
     var emailCheck= DB.users.find(e =>e.email == email);
     

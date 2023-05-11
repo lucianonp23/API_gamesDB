@@ -161,13 +161,17 @@
             var passwordField = document.getElementById("password");
             var email = emailField.value;
             var password = passwordField.value;
-            console.log(email)
+            
 
             axios.post("http://localhost:5000/auth",{email: email, password:password}).then(res=>{
-                alert("User logged!! Token: "+ res.json);
-                console.log("User logged!! Token: "+ res.data.token);
+                var token = res.data;
+                alert("User logged!! Token: "+ token);
+                console.log("User logged!! Token: "+ token);
+
+                localStorage.setItem("token", token);
+
             }).catch(err=>{
-                alert(err);
+                alert("Incorrect data input! Error : "+ err); 
             })
         }
         
