@@ -44,12 +44,12 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         
-        const token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImJydWNlIiwiaWF0IjoxNjgzNjY5MTY0LCJleHAiOjE2ODM4NDE5NjR9.Df2tbHGz8mMgzoSLk-942xoGHYVdYlfmtBAevMDv1iE";
+        var tokenAxios= localStorage.getItem("token");
         var axiosConfig= {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${tokenAxios}`
   }
-        }
+        };
         
         
         axios.get("http://localhost:5000/games",axiosConfig).then(response=>{
@@ -170,6 +170,7 @@
 
                 localStorage.setItem("token", token);
 
+                
             }).catch(err=>{
                 alert("Incorrect data input! Error : "+ err); 
             })
