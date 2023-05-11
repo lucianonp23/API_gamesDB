@@ -169,12 +169,14 @@
                 console.log("User logged!! Token: "+ token);
 
                 localStorage.setItem("token", token);
+                var tokenUpdate = localStorage.getItem("token");
+                axiosConfig.headers.Authorization = `Bearer ${tokenUpdate}`
 
                 
             }).catch(err=>{
                 alert("Incorrect data input! Error : "+ err); 
             })
-        }
+        };
         
         
     </script>
